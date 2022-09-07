@@ -1,0 +1,36 @@
+.breadcrumbs {
+  padding: 30px 0;
+  background-color: #f5f5f5;
+}
+
+.breadcrumbs-list {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs-item {
+  position: relative;
+
+  &:first-child {
+    display: flex;
+    align-items: center;
+
+    &:after {
+      content: '>';
+      display: block;
+      padding: 0 10px;
+    }
+  }
+
+  a {
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
+      color: #101010;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+body {
+  font-family: YuGothic, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #101010;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+$color-black: #000;
+$breakSp: 'screen and (min-width: 0px) and (max-width: 767px)';
+$breakPc: 'screen and (min-width: 768px)';
+
+// Path
+$path-image: '../../images/';
+$path-font: '../../fonts/';

@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  src: local('Montserrat');
+  src: url('#{$path-font}Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  src: local('Montserrat');
+  src: url('#{$path-font}Montserrat-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'YuGothic';
+  font-weight: normal;
+  src: local('YuGothic Regular'), local('Yu Gothic Regular'), local('YuGothic-Regular'), local('YuGo-Regular');
+  src: url('#{$path-font}YuGothic/YuGothic-Regular/YuGothic.eot'); /* IE9 Compat Modes */
+  src: url('#{$path-font}YuGothic/YuGothic-Regular/YuGothic.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$path-font}YuGothic/YuGothic-Regular/YuGothic.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('#{$path-font}YuGothic/YuGothic-Regular/YuGothic.woff') format('woff'),
+    /* Pretty Modern Browsers */ url('#{$path-font}YuGothic/YuGothic-Regular/YuGothic.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'YuGothic';
+  font-weight: 500;
+  src: local('YuGothic Medium'), local('Yu Gothic Medium'), local('YuGothic-Medium'), local('YuGo-Medium');
+  src: url('#{$path-font}YuGothic/YuGothic-Medium/YuGothic-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'YuGothic';
+  font-weight: 700;
+  src: local('YuGothic Bold'), local('Yu Gothic Bold'), local('YuGothic-Bold'), local('YuGo-Bold');
+  src: url('#{$path-font}YuGothic/YuGothic-Bold/YuGothic-Bold.eot'); /* IE9 Compat Modes */
+  src: url('#{$path-font}YuGothic/YuGothic-Bold/YuGothic-Bold.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$path-font}YuGothic/YuGothic-Bold/YuGothic-Bold.woff') format('woff'),
+    /* Pretty Modern Browsers */ url('#{$path-font}YuGothic/YuGothic-Bold/YuGothic-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+}

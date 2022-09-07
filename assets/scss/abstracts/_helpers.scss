@@ -1,0 +1,15 @@
+.sp-only {
+  @include viewPc {
+    display: none;
+  }
+}
+
+.pc-only {
+  @include viewSp {
+    display: none;
+  }
+}
+
+.hide {
+  display: none !important;
+}

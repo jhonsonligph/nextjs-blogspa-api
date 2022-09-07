@@ -1,0 +1,73 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+
+  &.sale {
+    color: white;
+    background-color: crimson;
+
+    .actions {
+      color: white;
+
+      a {
+        color: white;
+      }
+    }
+
+    h1 {
+      color: white;
+    }
+  }
+
+  &.dark {
+    color: white;
+    background-color: #2c3e50;
+
+    .actions {
+      color: white;
+
+      a {
+        &:link,
+        &:visited {
+          color: white;
+        }
+      }
+    }
+
+    h1 {
+      color: white;
+    }
+  }
+
+  .actions {
+    color: white;
+
+    a {
+      &:link,
+      &:active {
+        color: #333;
+        padding: 8px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        text-decoration: none;
+        margin: 10px;
+      }
+    }
+  }
+
+  h1 {
+    color: #03cfb4;
+    border: none;
+    padding: 0;
+  }
+
+  p {
+    font-style: initial;
+  }
+}

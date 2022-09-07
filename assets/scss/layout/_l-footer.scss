@@ -1,0 +1,97 @@
+.footer {
+  background-color: #292929;
+}
+
+.footer-container {
+  position: relative;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  height: 273px;
+}
+
+.footer-content {
+  width: 100%;
+}
+
+.footer-logo {
+  background-image: url('#{$path-image}LOGOwhite.svg');
+  background-position: 0 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 138px;
+  height: 28px;
+  position: relative;
+  top: 7px;
+
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.footer-description {
+  position: relative;
+  top: 25px;
+  width: 414px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 2;
+}
+
+.footer-scroll-to-top {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  border: none;
+  color: #101010;
+  letter-spacing: 0.1em;
+
+  &:before {
+    position: relative;
+    top: -1px;
+    margin: 0 auto;
+    display: block;
+    content: '';
+    width: 18px;
+    height: 12px;
+    background-image: url('#{$path-image}topArrow.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  span {
+    position: relative;
+    top: 8px;
+  }
+}
+
+.footer-copyright {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #101010;
+
+  span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    color: white;
+  }
+}

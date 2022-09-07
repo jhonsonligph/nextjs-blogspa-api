@@ -1,0 +1,54 @@
+.navigation {
+  padding: 30px 0;
+  font-family: 'Montserrat';
+}
+
+.navigation-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation-item {
+  &:first-child {
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  button {
+    margin-right: -7px;
+    padding: 0;
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+
+    span {
+      font-size: 18px;
+      letter-spacing: 0.135em;
+      text-transform: uppercase;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.navigation-home {
+  display: inline-block;
+  width: 148px;
+  height: 30px;
+  background-image: url('#{$path-image}LOGO.svg');
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: contain;
+}

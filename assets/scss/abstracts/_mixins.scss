@@ -1,0 +1,13 @@
+// media query for smartphone
+@mixin viewSp {
+  @media #{$breakSp} {
+    @content;
+  }
+}
+
+// media query for tablet
+@mixin viewPc {
+  @media #{$breakPc} {
+    @content;
+  }
+}
