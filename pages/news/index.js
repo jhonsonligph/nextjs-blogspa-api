@@ -1,26 +1,47 @@
+import { useEffect, useContext } from 'react'
 import { gql } from "@apollo/client";
-import client from "../../libs/apollo";
+import client from "../../lib/apollo";
 import Head from 'next/head'
+import Link from 'next/link'
+import moment from 'moment'
+import { AuthContext } from '../../context/auth'
+
 
 
 export default function Posts({ posts }) {
-  // TODO: Build Cards with Characters Data
-  if (!posts) return
+  const { isLoggedIn } = useContext(AuthContext)
+
+  useEffect(() => {
+    isLoggedIn()
+  }, [])
+
+  // if (!posts) return
 
   return (
     <>
       <Head>
-        <title>{`NextJS | Articles`}</title>
+        <title>{`News Archives`}</title>
       </Head>
-      {/* <h1>{posts.id} | {posts.title}</h1> */}
-      {posts?.map(({ id, title, content }) => (
-        <div key={id}>
-          <h1>{title}—{id}</h1>
-          <div>
-            <p>{content}</p>
-          </div>
-        </div>
-      ))}
+      <section className="news-archive l-container">
+        <ul className="news-list">
+          {posts?.map(({ id, title, createdAt, image }) => {
+            const no_image = 'https://dummyimage.com/1280x720/000/fff.jpg&text=No+Image'
+            const check_image = image != undefined ? image : no_image
+            return (
+              <li className="news-item" key={id}>
+                <article className="news-card">
+                  <Link href={`/news/${id}`}>
+                    <a><div className="news-card-eyecatch" style={{ backgroundImage: `url(${check_image})` }}></div></a>
+                  </Link>
+                  <div className="news-card-body">
+                    <p className="news-card-date">{moment(createdAt).format("YYYY[.]MM[.]DD")}</p>
+                    <h3 className="news-card-title">{title}</h3>
+                  </div>
+                </article>
+              </li>)
+          })}
+        </ul>
+      </section>
     </>
   )
 }
@@ -60,6 +81,7 @@ export async function getStaticProps() {
         posts(pagination: { limit: $limit }) {
           id
           title
+          image
           content
         }
       }

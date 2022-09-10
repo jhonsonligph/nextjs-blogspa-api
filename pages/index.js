@@ -1,43 +1,49 @@
+import { useState, useEffect, useContext } from 'react'
+import moment from 'moment'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import client from '../libs/apollo'
-import { gql } from "@apollo/client";
-import moment from 'moment'
+import client from '../lib/apollo'
+import { gql } from "@apollo/client"
+import { withRouter } from 'next/router'
 
-import Carousel from '../components/Carousel'
 import Login from '../components/Login'
 import Register from '../components/Register'
+import Carousel from '../components/Carousel'
+import { AuthContext } from '../context/auth'
+import News from '../components/News'
+
+const Home = ({ posts, router: { query: logUser } }) => {
+  const { auth, open, register, login, logout, isLoggedIn, isOpen } = useContext(AuthContext)
+  const isLoginRegister = () => isOpen()
 
 
-export default function Home({ posts }) {
+  // ON_MOUNT
+  useEffect(() => {
+    // console.log('LogUser::', logUser)
+    if (!auth && Object.keys(logUser).length > 0) {
+      isOpen()
+    }
+    // isLoggedIn()
+  }, [])
+
   return (
     <>
+      <Head>
+        <title>BLOG SPA | Career Goals</title>
+        <meta name="description" content="Cody_FY2022_2nd half evaluation(4/2022 - 9/2022)" />
+      </Head>
       <section className="news-header">
-        <Carousel />
+        {open ? (
+          <>
+            <div className="form">
+              {register ? <Register /> : <Login />}
+            </div>
+          </>
+        ) : <Carousel />}
       </section>
-
-      <section>
-        <Login />
-        <Register />
-      </section>
-
       <section className="news-archive l-container">
-        <ul className="news-list">
-          {posts?.map(({ id, title, createdAt, image }) => (
-            <li className="news-item" key={id}>
-              <article className="news-card">
-                <Link href={`/news/${id}`}>
-                  <a><div className="news-card-eyecatch" style={{ backgroundImage: `url('${image}')` }}></div></a>
-                </Link>
-                <div className="news-card-body">
-                  <p className="news-card-date">{moment(createdAt).format("YYYY[.]MM[.]DD")}</p>
-                  <h3 className="news-card-title">{title}</h3>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ul>
+        <News posts={posts} />
       </section>
     </>
   )
@@ -65,3 +71,5 @@ export async function getStaticProps() {
     },
   };
 }
+
+export default withRouter(Home)

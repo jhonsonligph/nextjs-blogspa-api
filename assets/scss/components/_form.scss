@@ -87,7 +87,8 @@
 .form-texterea-title {
   margin-top: 19px;
   padding: 21px 18px;
-  width: calc(100% - 38px);
+  // width: calc(100% - 38px);
+  width: 100%;
   height: 106px;
   font-family: YuGothic, sans-serif;
   font-size: 40px;
@@ -118,7 +119,8 @@
   font-size: 18px;
   letter-spacing: 0.1em;
   line-height: 2.22;
-  width: calc(100% - 46px);
+  // width: calc(100% - 46px);
+  width: 100%;
   height: 362px;
   border: 1px solid #707070;
   resize: none;
@@ -144,10 +146,12 @@
 
   input[type='text'],
   input[type='password'] {
+    font-family: 'Montserrat', sans-serif;
     display: block;
-    width: calc(100% - 42px);
+    width: 100%;
     height: 58px;
     padding: 0 20px;
+    font-size: 18px;
     border: 1px solid black;
   }
 }
@@ -175,9 +179,11 @@
   }
 
   button {
+    font-family: 'Montserrat', sans-serif;
     margin-left: -4px;
     display: inline-block;
     border: none;
+    font-size: 18px;
     font-weight: bold;
     letter-spacing: 0.1em;
     text-transform: uppercase;

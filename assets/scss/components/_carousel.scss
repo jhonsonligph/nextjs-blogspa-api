@@ -5,11 +5,18 @@
   height: 100%;
 }
 
+.carousel-slide {
+  height: 555px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
 .carousel-control {
   padding: 0 50px;
-  width: calc(99.7% - 96px);
+  // width: calc(99.7% - 96px);
   position: absolute;
-  // width: 100%;
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -41,7 +48,7 @@
 }
 
 .carousel-control-prev {
-  left: -13px;
+  // left: -13px;
 
   &:before {
     background-image: url('#{$path-image}arrow.svg');
@@ -66,7 +73,9 @@
   gap: 10px;
   z-index: 3;
 
-  span {
+  button {
+    border: 0;
+    outline: 0;
     display: flex;
     justify-content: center;
     align-items: center;

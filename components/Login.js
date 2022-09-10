@@ -4,16 +4,13 @@ import { useForm } from '../util/hooks'
 import { AUTHENTICATE_USER } from '../util/graphql'
 import { AuthContext } from '../context/auth'
 import { useRouter } from 'next/router'
-import { UserContext } from '../context/UserContext'
 
 const Login = () => {
-  const msg = useContext(UserContext)
-
   const { push } = useRouter()
-  const context = useContext(AuthContext)
-  const [errors, setErrors] = useState({})
+  const { login, register, isOpen, isRegister } = useContext(AuthContext)
   const loginUserCallback = () => loginUser()
-
+  const registerUser = () => isRegister()
+  // const [errors, setErrors] = useState({})
 
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     email: '',
@@ -22,13 +19,15 @@ const Login = () => {
 
   const [loginUser, { loading }] = useMutation(AUTHENTICATE_USER, {
     variables: values,
-    update: (_, { data: { login } }) => {
-      context.login(login)
-      push('/news/create/')
+    update: (_, { data: { authenticate } }) => {
+      login(authenticate)
+      isOpen()
     }
   })
 
   // TODO: Continue YT useContext
+
+  if (loading) return <h1>Loading...</h1>
 
 
   // const onSubmit = (e) => {
@@ -40,12 +39,29 @@ const Login = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit}>
+      {/* <form onSubmit={onSubmit}>
         <input type="text" name="email" onChange={onChange} placeholder="Email" />
         <input type="password" name="password" onChange={onChange} placeholder="password" />
         <button>Submit</button>
+      </form> */}
+      <form onSubmit={onSubmit} className="form-login">
+        <h2>Login</h2>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input type="text" id="email" name="email" onChange={onChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password" onChange={onChange} />
+        </div>
+        {/* <span className="form-error" v-if="formError">{{formError}}</span> */}
+        <div className="form-submit">
+          <button className="button" type="submit">Login</button>
+        </div>
       </form>
-      {msg}
+      <div className="form-footnote">
+        <span>No account yet?</span> <button onClick={registerUser}>Register Here</button>
+      </div>
     </>
   );
 }

@@ -1,37 +1,36 @@
 import React, { createContext, useReducer } from 'react';
-// import jwtDecode from 'jwt-decode';
-
-const initialState = { user: null }
-// const token = localStorage.getItem('authToken')
-
-// if (token) {
-//   const decodedToken = jwtDecode(token)
-
-//   if (decodedToken.exp * 1000 < Date.now()) {
-//     localStorage.removeItem('authToken')
-//   } else {
-//     initialState.user = decodedToken
-//   }
-// }
-
-const AuthContext = createContext({
-  user: null,
-  login: data => { },
-  logout: () => { }
-});
+const AuthContext = createContext();
 
 const authReducer = (state, { type, payload }) => {
   switch (type) {
+    case 'IS_OPEN':
+      return {
+        ...state,
+        isOpen: payload
+      }
+
+    case 'IS_REGISTER':
+      return {
+        ...state,
+        isRegister: payload
+      }
+
+    case 'IS_LOGGED_IN':
+      return {
+        ...state,
+        isLoggedIn: payload
+      }
+
     case 'LOGIN':
       return {
         ...state,
-        user: payload
+        isLoggedIn: payload
       }
 
     case 'LOGOUT':
       return {
         ...state,
-        user: null
+        isLoggedIn: payload
       }
 
     default:
@@ -40,22 +39,74 @@ const authReducer = (state, { type, payload }) => {
 }
 
 const AuthProvider = props => {
-  const [state, dispatch] = useReducer(authReducer, initialState)
+  const [state, dispatch] = useReducer(authReducer, {
+    isLoggedIn: false,
+    isOpen: false,
+    isRegister: false
+  })
 
-  const login = userData => {
-    localStorage.setItem('authToken', userData.token)
+  const login = token => {
+    localStorage.setItem('authToken', token)
     dispatch({
       type: 'LOGIN',
-      payload: userData
+      payload: localStorage.getItem('authToken') !== null
     })
+  }
+
+  const newUser = bool => {
+    if (bool) {
+      console.log('NEW_USER:', bool)
+
+      // localStorage.setItem('authToken', token)
+      // dispatch({
+      //   type: 'LOGIN',
+      //   payload: localStorage.getItem('authToken') !== null
+      // })
+    }
   }
 
   const logout = () => {
     localStorage.removeItem('authToken')
-    dispatch({ type: 'LOGOUT' })
+    dispatch({
+      type: 'LOGOUT',
+      payload: localStorage.getItem('authToken') !== null
+    })
   }
 
-  return <AuthContext.Provider value={{ user: state.user, login, logout }} {...props} />
+  const isLoggedIn = () => {
+    if (localStorage.getItem('authToken') !== null) {
+      dispatch({
+        type: 'IS_LOGGED_IN',
+        payload: localStorage.getItem('authToken') !== null
+      })
+    }
+  }
+
+  const isOpen = () => {
+    dispatch({
+      type: 'IS_OPEN',
+      payload: !state.isOpen
+    })
+  }
+
+  const isRegister = () => {
+    dispatch({
+      type: 'IS_REGISTER',
+      payload: !state.isRegister
+    })
+  }
+
+  return <AuthContext.Provider value={{
+    auth: state.isLoggedIn,
+    open: state.isOpen,
+    register: state.isRegister,
+    newUser,
+    login,
+    logout,
+    isLoggedIn,
+    isOpen,
+    isRegister
+  }} {...props} />
 }
 
 export { AuthContext, AuthProvider }

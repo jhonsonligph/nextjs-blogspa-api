@@ -1,36 +1,79 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-
+import { useEffect, useContext } from 'react'
+import { AuthContext } from '../context/auth'
 
 const Navigation = () => {
+  const { auth, open, login, logout, isLoggedIn, isOpen } = useContext(AuthContext)
+  const context = useContext(AuthContext)
   const router = useRouter()
-  const { query: { id }, pathname } = router
+  const { pathname, push } = router
+  const logOutUser = () => logout()
+  const isLoginRegister = () => isOpen()
 
+  function logInUser() {
+    push({
+      pathname: '/',
+      query: { logUser: true }
+    }, '/')
+  }
+  // TODO: LOGOUT private routes
   useEffect(() => {
-    console.log(pathname)
-  }, [])
-
-
+    // console.clear()
+    console.log('LOCATION:', pathname)
+    console.log('CONTEXT:', context)
+  })
 
   return (
     <>
       <nav className="navigation">
         <ul className="navigation-list l-container">
           <li className="navigation-item">
-            <Link href="/">
-              <a>
-                <h1 className="navigation-home">
-                  <span>Blog</span>
-                  {/* <img src="../assets/images/LOGO.svg"> */}
-                </h1>
-              </a>
-            </Link>
+            {pathname === '/' ? (
+              <h1 className="navigation-home">
+                <span>Blog</span>
+                {/* <img src="../assets/images/LOGO.svg"> */}
+              </h1>
+            ) : (
+              <Link href="/">
+                <a>
+                  <h1 className="navigation-home">
+                    <span>Blog</span>
+                    {/* <img src="../assets/images/LOGO.svg"> */}
+                  </h1>
+                </a>
+              </Link>
+            )}
           </li>
           <li className="navigation-item">
-            {/* {router.pathname === '/news/create' ? 'New Post' : 'Unknown'} */}
-            {/* {router.pathname === '/news/[id]' ? 'New Post' : 'Unknown'} */}
-            {router.pathname === '/news/edit/[id]' ? 'Edit Post' : 'Unknown'}
+            {(() => {
+              const routes = pathname === '/news/[id]' || pathname === '/news/edit/[id]' || pathname === '/news/create'
+              if (auth) {
+                if (pathname === '/' || routes) {
+                  return (
+                    <button onClick={logOutUser}>
+                      <span>logout</span>
+                    </button>
+                  )
+                }
+              } else {
+                if (pathname === '/') {
+                  return (
+                    <button onClick={isLoginRegister}>
+                      <span>{open ? 'close' : 'login'}</span>
+                    </button>
+                  )
+                } else if (routes) {
+                  return (
+                    <button onClick={logInUser}>
+                      <span>login</span>
+                    </button>
+                  )
+                } else {
+                  return ('Redirecting...')
+                }
+              }
+            })()}
           </li>
         </ul>
       </nav>

@@ -9,7 +9,7 @@
 
 .news-header {
   width: 100%;
-  height: 666px;
+  height: 667px;
   overflow: hidden;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .news-item {
-  width: calc(87% / 3);
+  width: calc(100% / 3);
   padding: 0 25px 60px;
 }
 
@@ -98,7 +98,7 @@
 
 .news-card-eyecatch {
   width: 100%;
-  padding-top: 200px;
+  padding-top: 200px; //59.4649%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
