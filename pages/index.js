@@ -14,17 +14,16 @@ import { AuthContext } from '../context/auth'
 import News from '../components/News'
 
 const Home = ({ posts, router: { query: logUser } }) => {
-  const { auth, open, register, login, logout, isLoggedIn, isOpen } = useContext(AuthContext)
+  const { auth, open, register, isLoggedIn, isOpen } = useContext(AuthContext)
   const isLoginRegister = () => isOpen()
-
 
   // ON_MOUNT
   useEffect(() => {
+    isLoggedIn()
     // console.log('LogUser::', logUser)
     if (!auth && Object.keys(logUser).length > 0) {
       isOpen()
     }
-    // isLoggedIn()
   }, [])
 
   return (

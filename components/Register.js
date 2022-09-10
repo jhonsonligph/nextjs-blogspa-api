@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { REGISTER_USER } from '../util/graphql'
+import { REGISTER_USER, AUTHENTICATE_USER } from '../util/graphql'
 import { AuthContext } from '../context/auth'
 import { useForm } from '../util/hooks'
 
@@ -11,6 +11,11 @@ const Register = () => {
   const { login, register, isOpen, isRegister, newUser } = useContext(AuthContext)
   const [errors, setErrors] = useState({})
   const logUserIn = () => isRegister()
+  const loginUserCallback = () => loginUser()
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+  })
   const registerUser = () => {
     const { email, password, confirmPassword } = values
     if (validateEmail(email)) {
@@ -18,6 +23,7 @@ const Register = () => {
         // console.log('MATCHED PASSWORDS')
         // console.log('YOU ARE NOW REGISTERED')
         addUser()
+        loginUser()
 
       } else {
         setErrors(prevState => ({
@@ -45,12 +51,27 @@ const Register = () => {
     variables: values,
     update(_, { data: { register } }) {
       newUser(register)
+      setCredentials({
+        email: values.email,
+        password: values.password
+      })
+
       // setTimeout(() => {
       //   isRegister()
       //   isOpen()
       //   push('/')
       // }, 1000)
     },
+  })
+
+  const [loginUser, { loading2 }] = useMutation(AUTHENTICATE_USER, {
+    variables: credentials,
+    update: (_, { data: { authenticate } }) => {
+      login(authenticate)
+      isRegister()
+      isOpen()
+      push('/')
+    }
   })
 
   useEffect(() => {
@@ -93,6 +114,7 @@ const Register = () => {
       <div className="form-footnote">
         <span>Already have an account?</span> <button onClick={logUserIn}>Login Here</button>
       </div>
+      {errors && (<>{errors.email || errors.password}</>)}
     </>
   );
 }

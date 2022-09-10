@@ -56,12 +56,6 @@ const AuthProvider = props => {
   const newUser = bool => {
     if (bool) {
       console.log('NEW_USER:', bool)
-
-      // localStorage.setItem('authToken', token)
-      // dispatch({
-      //   type: 'LOGIN',
-      //   payload: localStorage.getItem('authToken') !== null
-      // })
     }
   }
 
