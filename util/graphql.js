@@ -22,6 +22,17 @@ query Posts($limit: Int) {
   }
 }`
 
+export const FETCH_ALL_NEWS = gql`
+query Posts($limit: Int) {
+  posts(pagination: { limit: $limit }) {
+    id
+    title
+    image
+    content
+    createdAt
+  }
+}`
+
 export const FETCH_NEWS_QUERY = gql`
 query Posts($offset: Int) {
   posts(pagination: { offset: $offset }) {
@@ -32,3 +43,18 @@ query Posts($offset: Int) {
     createdAt
   }
 }`
+
+export const ADD_POST_MUTATION = gql`
+mutation addPost($title: String, $content: String) {
+  addPost(post: {
+    title: $title,
+    content: $content
+  }) {
+    id
+    title
+    image
+    content
+    createdAt
+  }
+}
+`

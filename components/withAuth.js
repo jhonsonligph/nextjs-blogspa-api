@@ -3,14 +3,16 @@ import { useContext } from 'react'
 import { AuthContext } from '../context/auth'
 
 const withAuth = Component => {
+
+
   const Auth = props => {
     const { auth } = useContext(AuthContext)
-    const router = useRouter()
+    const { push } = useRouter()
 
 
     // If user is not logged in, return login component
     if (!auth) {
-      router.push('/')
+      push('/')
     }
 
     // If user is logged in, return original component

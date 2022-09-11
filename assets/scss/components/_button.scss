@@ -17,9 +17,15 @@
 
   &.button-upload-image {
     position: absolute;
-    bottom: -91px;
-    text-align: center;
     width: 260px;
+    bottom: -160px;
     line-height: 70px;
+    text-align: center;
+
+    input {
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 }

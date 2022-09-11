@@ -83,6 +83,7 @@ export async function getStaticProps() {
           title
           image
           content
+          createdAt
         }
       }
     `,

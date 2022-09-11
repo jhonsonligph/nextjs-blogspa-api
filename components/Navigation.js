@@ -8,8 +8,11 @@ const Navigation = () => {
   const context = useContext(AuthContext)
   const router = useRouter()
   const { pathname, push } = router
-  const logOutUser = () => logout()
   const isLoginRegister = () => isOpen()
+  const logOutUser = () => {
+    logout()
+    push('/')
+  }
 
   function logInUser() {
     push({

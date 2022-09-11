@@ -19,7 +19,8 @@ const EditPost = ({ post }) => {
 
   // ON_MOUNT
   useEffect(() => {
-    // isLoggedIn()
+    isLoggedIn()
+    !auth ? push('/') : null
   }, [])
 
   // ON_DATA_CHANGE
@@ -29,7 +30,6 @@ const EditPost = ({ post }) => {
       image: base64img
     })
   }, [base64img])
-
 
   // ONMOUNT
   // useEffect(() => {
@@ -70,7 +70,7 @@ const EditPost = ({ post }) => {
 
   if (!Object.keys(newsDetails).length > 0) return
 
-  const { title, content, image, createdAt, comments } = newsDetails
+  const { id, title, content, image, createdAt, comments } = newsDetails
 
   // TODO: Comments sections
   return (
@@ -79,7 +79,7 @@ const EditPost = ({ post }) => {
         <title>{`Create New Post`}</title>
       </Head>
       <div className="news-article-create form form-create add">
-        <Breadcrumbs item={title ? title : 'Enter a new title'} />
+        <Breadcrumbs item={title ? title : ''} />
         <form onSubmit={onSubmit} className="l-container">
           <div className="form-controls">
             <ul className="form-controls-list">
@@ -87,7 +87,7 @@ const EditPost = ({ post }) => {
                 <button type="submit">Save Post</button>
               </li>
               <li className="form-controls-item">
-                <button>Cancel</button>
+                <button onClick={() => push(`/news/${id}`)}>Cancel</button>
               </li>
             </ul>
           </div>
@@ -141,12 +141,11 @@ export async function getStaticPaths() {
     query: gql`
       query Posts($limit: Int) {
         posts(pagination: {limit: $limit }) {
-        id
+          id
           title
-      content
+          content
         }
-      }
-      `,
+      }`,
     variables: { limit: -1 },
   });
 

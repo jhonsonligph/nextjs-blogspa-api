@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { REGISTER_USER, AUTHENTICATE_USER } from '../util/graphql'
@@ -47,7 +47,7 @@ const Register = () => {
     confirmPassword: ''
   })
 
-  const [addUser, { loading }] = useMutation(REGISTER_USER, {
+  const [addUser] = useMutation(REGISTER_USER, {
     variables: values,
     update(_, { data: { register } }) {
       newUser(register)
@@ -55,16 +55,10 @@ const Register = () => {
         email: values.email,
         password: values.password
       })
-
-      // setTimeout(() => {
-      //   isRegister()
-      //   isOpen()
-      //   push('/')
-      // }, 1000)
     },
   })
 
-  const [loginUser, { loading2 }] = useMutation(AUTHENTICATE_USER, {
+  const [loginUser, { loading }] = useMutation(AUTHENTICATE_USER, {
     variables: credentials,
     update: (_, { data: { authenticate } }) => {
       login(authenticate)
@@ -84,14 +78,10 @@ const Register = () => {
     );
   }
 
+  if (loading) return <h1>Registering new account...</h1>
+
   return (
-    <>
-      {/* <form onSubmit={onSubmit}>
-        <input type="text" name="email" onChange={onChange} placeholder="Email" />
-        <input type="password" name="password" onChange={onChange} placeholder="Password" />
-        <input type="password" name="confirm" onChange={onChange} placeholder="Confirm Password" />
-        <button>Submit</button>
-      </form> */}
+    <React.Fragment>
       <form className="form-register" onSubmit={onSubmit}>
         <h2>Register</h2>
         <div className="form-group">
@@ -115,7 +105,7 @@ const Register = () => {
         <span>Already have an account?</span> <button onClick={logUserIn}>Login Here</button>
       </div>
       {errors && (<>{errors.email || errors.password}</>)}
-    </>
+    </React.Fragment>
   );
 }
 

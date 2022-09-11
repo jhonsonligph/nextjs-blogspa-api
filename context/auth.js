@@ -1,8 +1,18 @@
 import React, { createContext, useReducer } from 'react';
-const AuthContext = createContext();
+import { useQuery } from '@apollo/client'
+import { FETCH_ALL_NEWS } from '../util/graphql'
+
+
+const AuthContext = createContext({});
 
 const authReducer = (state, { type, payload }) => {
   switch (type) {
+    case 'TOTAL_NEWS':
+      return {
+        ...state,
+        totalNews: payload
+      }
+
     case 'IS_OPEN':
       return {
         ...state,
@@ -39,6 +49,7 @@ const authReducer = (state, { type, payload }) => {
 }
 
 const AuthProvider = props => {
+  const { data } = useQuery(FETCH_ALL_NEWS, { variables: { limit: -1 } })
   const [state, dispatch] = useReducer(authReducer, {
     isLoggedIn: false,
     isOpen: false,
@@ -90,17 +101,20 @@ const AuthProvider = props => {
     })
   }
 
-  return <AuthContext.Provider value={{
-    auth: state.isLoggedIn,
-    open: state.isOpen,
-    register: state.isRegister,
-    newUser,
-    login,
-    logout,
-    isLoggedIn,
-    isOpen,
-    isRegister
-  }} {...props} />
+  if (data)
+
+    return <AuthContext.Provider value={{
+      auth: state.isLoggedIn,
+      open: state.isOpen,
+      register: state.isRegister,
+      total: data.posts.length,
+      newUser,
+      login,
+      logout,
+      isLoggedIn,
+      isOpen,
+      isRegister
+    }} {...props} />
 }
 
 export { AuthContext, AuthProvider }

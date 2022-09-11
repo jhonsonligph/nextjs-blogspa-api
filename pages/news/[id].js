@@ -45,6 +45,21 @@ const SingleNews = ({ post }) => {
           <div className="news-article-content">
             <p>{content}</p>
           </div>
+          <div className="news-article-comments comments">
+            <h3 className="comments-title">Comment</h3>
+            <div className="comments-detail">
+              {/* <p>{comment.body}</p> */}
+              {/* <span>{ commentCreated(comment.createdAt) }</span> */}
+              <p>Dummy comment</p>
+              <span>2022.09.12</span>
+            </div>
+            <form className="comments-comment" onSubmit={e => e.preventDefault()}>
+              <textarea name="comment" placeholder="Write comment"></textarea>
+              {/* <button type="submit">Submit</button> */}
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+
         </div>
       </div>
     </>
@@ -56,19 +71,18 @@ export async function getStaticProps({ params: { id } }) {
     query: gql`
       query($id: Int){
         post(id: $id) {
-        id
+          id
           title
-      image
-      content
-      createdAt
-      comments {
-        id
+          image
+          content
+          createdAt
+          comments {
+            id
             content
-      createdAt
+            createdAt
           }
         }
-      }
-      `,
+      }`,
     variables: { id: +id },
   });
 
@@ -84,12 +98,11 @@ export async function getStaticPaths() {
     query: gql`
       query Posts($limit: Int) {
         posts(pagination: {limit: $limit }) {
-        id
+          id
           title
-      content
+          content
         }
-      }
-      `,
+      }`,
     variables: { limit: -1 },
   });
 
