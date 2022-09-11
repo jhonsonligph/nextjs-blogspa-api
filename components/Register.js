@@ -16,6 +16,24 @@ const Register = () => {
     email: '',
     password: '',
   })
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  })
+
+  useEffect(() => {
+    setInterval(() => {
+      setErrors({})
+      setFormData({
+        email: '',
+        password: '',
+        confirmPassword: ''
+      })
+    }, 3500)
+  }, [errors])
+
   const registerUser = () => {
     const { email, password, confirmPassword } = values
     if (validateEmail(email)) {
@@ -41,11 +59,7 @@ const Register = () => {
     }
   }
 
-  const { onChange, onSubmit, values } = useForm(registerUser, {
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
+  const { onChange, onSubmit, values } = useForm(registerUser, formData)
 
   const [addUser] = useMutation(REGISTER_USER, {
     variables: values,
@@ -68,9 +82,9 @@ const Register = () => {
     }
   })
 
-  useEffect(() => {
-    console.log(values)
-  })
+  // useEffect(() => {
+  //   console.log(values)
+  // })
 
   function validateEmail(email) {
     return email.match(
@@ -96,7 +110,6 @@ const Register = () => {
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input type="password" id="confirmPassword" name="confirmPassword" onChange={onChange} required />
         </div>
-        {/* <span className="form-error" v-if="formError">{{formError}}</span> */}
         <div className="form-submit">
           <button className="button" type="submit">Register</button>
         </div>
@@ -104,7 +117,9 @@ const Register = () => {
       <div className="form-footnote">
         <span>Already have an account?</span> <button onClick={logUserIn}>Login Here</button>
       </div>
-      {errors && (<>{errors.email || errors.password}</>)}
+      <div className="form-error">
+        {errors.email || errors.password}
+      </div>
     </React.Fragment>
   );
 }

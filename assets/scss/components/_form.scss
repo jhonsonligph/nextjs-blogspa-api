@@ -164,7 +164,9 @@
 }
 
 .form-error {
-  display: inline-block;
+  // display: inline-block;
+  display: block;
+  text-align: center;
   padding: 20px 0 0;
   font-weight: bold;
   color: crimson;
