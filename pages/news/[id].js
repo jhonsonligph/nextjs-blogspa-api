@@ -1,15 +1,32 @@
-import { useEffect, useContext } from 'react'
-import { gql, useQuery } from "@apollo/client";
+import { useState, useEffect, useContext } from 'react'
+import { gql, useQuery, useMutation } from "@apollo/client";
 import client from "../../lib/apollo";
 import Head from 'next/head'
 import Link from 'next/link'
 import moment from 'moment'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import { AuthContext } from '../../context/auth';
+import { ADD_COMMENT_ON_POST_MUTATION } from '../../util/graphql'
+
 
 const SingleNews = ({ post }) => {
   const { auth, isLoggedIn, open, isOpen } = useContext(AuthContext)
   const { id, title, content, image, createdAt, comments } = post
+  const [comment, setComment] = useState('')
+  const onChangeComment = ({ target: { name, value } }) => setComment(value)
+  const onSubmitComment = e => {
+    e.preventDefault()
+    addComment()
+  }
+
+  const [addComment, { loading, error }] = useMutation(ADD_COMMENT_ON_POST_MUTATION, {
+    variables: { postId: +id, content }, //TODO: Fix variables in ADD_POST_MUTATION
+    update: () => { },
+    onError: err => err,
+    onCompleted: data => {
+      console.log('ON_COMPLETED::DATA_COMMENT', data)
+    }
+  })
 
   useEffect(() => {
     isLoggedIn()
@@ -18,9 +35,15 @@ const SingleNews = ({ post }) => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('COMMENT', comment)
+  }, [comment])
+
   const postCreated = date => {
     return moment(date).format("YYYY[.]MM[.]DD");
   }
+
+  if (loading) return <h3>Loading...</h3>
 
   return (
     <>
@@ -47,17 +70,20 @@ const SingleNews = ({ post }) => {
           </div>
           <div className="news-article-comments comments">
             <h3 className="comments-title">Comment</h3>
-            <div className="comments-detail">
-              {/* <p>{comment.body}</p> */}
-              {/* <span>{ commentCreated(comment.createdAt) }</span> */}
-              <p>Dummy comment</p>
-              <span>2022.09.12</span>
-            </div>
-            <form className="comments-comment" onSubmit={e => e.preventDefault()}>
-              <textarea name="comment" placeholder="Write comment"></textarea>
-              {/* <button type="submit">Submit</button> */}
-              <button type="submit">Submit</button>
-            </form>
+            {auth ? (
+              <>
+                {comments?.reverse()?.map(({ id, content, createdAt }) => (
+                  <div key={id} className="comments-detail">
+                    <p>{content}</p>
+                    <span>{postCreated(createdAt)}</span>
+                  </div>
+                ))}
+                <form className="comments-comment" onSubmit={onSubmitComment}>
+                  <textarea name="comment" placeholder="Write comment" onChange={onChangeComment}></textarea>
+                  <button type="submit">Submit</button>
+                </form>
+              </>
+            ) : <h3>You must sign-in to comment.</h3>}
           </div>
 
         </div>
@@ -97,7 +123,7 @@ export async function getStaticPaths() {
   const { data } = await client.query({
     query: gql`
       query Posts($limit: Int) {
-        posts(pagination: {limit: $limit }) {
+        posts(pagination: { limit: $limit }) {
           id
           title
           content

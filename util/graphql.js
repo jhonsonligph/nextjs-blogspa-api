@@ -58,3 +58,13 @@ mutation addPost($title: String, $content: String) {
   }
 }
 `
+
+export const ADD_COMMENT_ON_POST_MUTATION = gql`
+  mutation ADD_COMMENT($id: Int!, $content: String!) {
+    addComment(postId: $id, content: $content) {
+      id
+      content
+      createdAt
+  }
+}
+`

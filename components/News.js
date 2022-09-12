@@ -1,12 +1,25 @@
 import Link from 'next/link'
 import moment from 'moment'
+import { useState, useEffect } from 'react'
 import { AuthContext } from '../context/auth'
 import { useContext } from 'react'
 
 export default function News({ posts }) {
   const { auth } = useContext(AuthContext)
+  const [visible, setVisible] = useState(6)
+  const MAX_ITEMS = posts.length
+
   const postCreated = date => {
     return moment(date).format("YYYY[.]MM[.]DD");
+  }
+
+  // useEffect(() => {
+  //   console.log('Visible', visible)
+  //   console.log('Maxed', posts.length)
+  // }, [visible])
+
+  function showMoreItems() {
+    setVisible(prevState => prevState + 6)
   }
 
   return (
@@ -21,7 +34,7 @@ export default function News({ posts }) {
       </div>
 
       <ul className="news-list">
-        {posts && posts?.map(({ id, title, createdAt, image }) => {
+        {posts && posts?.slice(0, visible)?.map(({ id, title, createdAt, image }) => {
           const no_image = 'https://dummyimage.com/1280x720/d6d6d6/fff.jpg&text=404'
           const check_image = image != undefined ? image : no_image
           return (
@@ -38,6 +51,9 @@ export default function News({ posts }) {
             </li>)
         })}
       </ul>
+      <div className="news-button">
+        {(visible < MAX_ITEMS) && <button onClick={showMoreItems}>Load More</button>}
+      </div>
     </>
   );
 }
