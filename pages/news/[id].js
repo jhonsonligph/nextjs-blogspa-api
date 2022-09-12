@@ -70,20 +70,18 @@ const SingleNews = ({ post }) => {
           </div>
           <div className="news-article-comments comments">
             <h3 className="comments-title">Comment</h3>
+            {comments?.reverse()?.map(({ id, content, createdAt }) => (
+              <div key={id} className="comments-detail">
+                <p>{content}</p>
+                <span>{postCreated(createdAt)}</span>
+              </div>
+            ))}
             {auth ? (
-              <>
-                {comments?.reverse()?.map(({ id, content, createdAt }) => (
-                  <div key={id} className="comments-detail">
-                    <p>{content}</p>
-                    <span>{postCreated(createdAt)}</span>
-                  </div>
-                ))}
-                <form className="comments-comment" onSubmit={onSubmitComment}>
-                  <textarea name="comment" placeholder="Write comment" onChange={onChangeComment}></textarea>
-                  <button type="submit">Submit</button>
-                </form>
-              </>
-            ) : <h3>You must sign-in to comment.</h3>}
+              <form className="comments-comment" onSubmit={onSubmitComment}>
+                <textarea name="comment" placeholder="Write comment" onChange={onChangeComment}></textarea>
+                <button type="submit">Submit</button>
+              </form>
+            ) : <h3 className="comments-form-disabled">You must sign-in to comment.</h3>}
           </div>
 
         </div>
